@@ -1,8 +1,12 @@
 {
+  "name": "KWCoin-Wallet",
+  "productName": "KWCoin Wallet",
   "scripts": {
-    "start": "electron main.js",
-    "dev": "concurrently --kill-others \" yarn run startReact \" \"ENV=dev electron .\"",
-    "startReact": "cd uidev && npm start"
+    "start": "concurrently --kill-others \" yarn run startReact \" \"ENV=dev electron .\"",
+    "startReact": "cd uidev && npm start",
+    "build": "electron-packager . --prun=false --ignore=uidev --overwrite --out=dist",
+    "prebuild": "yarn run deleteWallet && cd uidev && npm run build",
+    "deleteWallet": "rm -rf kwbitcoin/src/privateKey"
   },
   "main": "main.js",
   "devDependencies": {
@@ -10,6 +14,7 @@
     "electron": "^3.0.10"
   },
   "dependencies": {
+    "electron-packager": "^13.0.0",
     "get-port": "^4.0.0"
   }
 }

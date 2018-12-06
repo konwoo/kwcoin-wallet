@@ -30,7 +30,8 @@ const SendTxForm = styled.form`
 `;
 
 const Submit = styled(Button.withComponent("input"))`
-  margin-right:10px;
+  margin-right: 10px;
+  margin-left: 10px;
   border: 2px solid #305371;
   box-shadow:none;
   &:hover{

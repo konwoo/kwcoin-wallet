@@ -34,7 +34,6 @@ class AppContainer extends Component {
     setInterval(() => this._getBalance(sharedPort), 1000);
   };
   render() {
-    console.log("?");
     baseStyles();
     return (
       <AppPresenter
@@ -80,11 +79,12 @@ class AppContainer extends Component {
       [name]: value
     });
   };
+
   _handleSubmit = async e => {
     e.preventDefault();
     const { sharedPort } = this.props;
     const { amount, toAddress } = this.state;
-    const requst = await axios.post(`${SELF_NODE(sharedPort)}/transitions`, {
+    const requst = await axios.post(`${SELF_NODE(sharedPort)}/transactions`, {
       amount: Number(amount),
       address: toAddress
     });
