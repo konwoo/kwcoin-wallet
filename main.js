@@ -1,6 +1,16 @@
 const electron = require("electron"),
   path = require("path"),
-  url = require("url");
+  url = require("url"),
+  getPort = require("get-port"),
+  kwCoin = require("./kwbitcoin/src/server");
+
+  getPort().then(port => {
+    const server = kwCoin.app.listen(port, () => {
+      console.log(`running blockchain node on: http://localhost:${port}`);
+    });
+    kwCoin.startP2PServer(server);
+    global.sharedPort = port;
+  });
 
 const { app, BrowserWindow } = electron;
 

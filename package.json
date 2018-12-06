@@ -1,10 +1,15 @@
 {
   "scripts": {
     "start": "electron main.js",
-    "dev": "ENV=dev electron main.js"
+    "dev": "concurrently --kill-others \" yarn run startReact \" \"ENV=dev electron .\"",
+    "startReact": "cd uidev && npm start"
   },
+  "main": "main.js",
   "devDependencies": {
     "concurrently": "^4.1.0",
     "electron": "^3.0.10"
+  },
+  "dependencies": {
+    "get-port": "^4.0.0"
   }
 }
