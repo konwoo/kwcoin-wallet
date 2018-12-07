@@ -63,3 +63,36 @@ export const Button = styled.button`
     }
   }
 `;
+
+export const Notification = styled.div`
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    background-color: #C91212;
+    border: 3px;
+    width: 300px;
+    height: 100px;
+    padding: 10px 10px 10px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 3px;
+    &:focus,
+    &:active {
+
+    }
+
+`;
+
+export const closeBtn = styled.button`
+
+  float: right;
+  display: inline-block;
+  padding: 2px 5px;
+  background-color: #ccc;
+
+  &:hover {
+    float: right;
+    display: inline-block;
+    padding: 2px 5px;
+    background-color: #ccc;
+    color: #fff;
+  }
+`;

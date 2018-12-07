@@ -6,7 +6,8 @@ import {
   Key,
   KeyName,
   Title,
-  Button
+  Button,
+  Notification
 } from "Components/Shared";
 
 const Header = styled.div`

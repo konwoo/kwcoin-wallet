@@ -7,7 +7,7 @@ import typography from "../../typography";
 import { MASTER_NODE, SELF_NODE, SELF_P2P_NODE } from "../../constants";
 import AppPresenter from "./AppPresenter";
 
-const baseStyles = () => createGlobalStyle`
+const BaseStyles = createGlobalStyle`
     ${reset};
     ${typography}
     h1,h2,h3,h4{
@@ -34,14 +34,16 @@ class AppContainer extends Component {
     setInterval(() => this._getBalance(sharedPort), 1000);
   };
   render() {
-    baseStyles();
     return (
-      <AppPresenter
-        {...this.state}
-        mineBlock={this._mineBlock}
-        handleInput={this._handleInput}
-        handleSubmit={this._handleSubmit}
-      />
+    <div>
+        <AppPresenter
+          {...this.state}
+          mineBlock={this._mineBlock}
+          handleInput={this._handleInput}
+          handleSubmit={this._handleSubmit}
+        />
+      <BaseStyles />
+    </div>
     );
   }
   _registerOnMaster = async port => {
@@ -49,6 +51,7 @@ class AppContainer extends Component {
       peer: SELF_P2P_NODE(port)
     });
   };
+
   _getAddress = async port => {
     const requst = await axios.get(`${SELF_NODE(port)}/me/address`);
     this.setState({
@@ -56,6 +59,7 @@ class AppContainer extends Component {
       isLoading: false
     });
   };
+
   _getBalance = async port => {
     const requst = await axios.get(`${SELF_NODE(port)}/me/balance`);
     const { balance } = requst.data;
@@ -63,16 +67,29 @@ class AppContainer extends Component {
       balance
     });
   };
+
   _mineBlock = async () => {
     const { sharedPort } = this.props;
     this.setState({
       isMining: true
     });
-    const requst = await axios.post(`${SELF_NODE(sharedPort)}/blocks`);
+    const request = await axios.post(`${SELF_NODE(sharedPort)}/blocks`)
+    .then(response => {
+      if (request.status === 200 && request.statusText === "OK") {
+        console.log("success");
+      } else {
+        console.log("Mining Error");
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
     this.setState({
       isMining: false
     });
   };
+
   _handleInput = e => {
     const { target: { name, value }} = e;
     this.setState({
@@ -84,15 +101,21 @@ class AppContainer extends Component {
     e.preventDefault();
     const { sharedPort } = this.props;
     const { amount, toAddress } = this.state;
-    const requst = await axios.post(`${SELF_NODE(sharedPort)}/transactions`, {
+
+    const request = await axios.post(`${SELF_NODE(sharedPort)}/transactions`, {
       amount: Number(amount),
       address: toAddress
+    }).then(response => {
+      console.log(response);
+    }).catch(error => {
+      console.log(error);
     });
     this.setState({
       amount: "",
       toAddress: ""
     });
   };
+
 }
 
 export default AppContainer;
